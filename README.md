@@ -1,2 +1,2 @@
-# snotra
+# Snotra
 Snotra | Finance tracker

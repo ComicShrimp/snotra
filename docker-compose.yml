@@ -1,0 +1,30 @@
+version: "3.4"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api.dockerfile
+    container_name: snotra_api
+    restart: unless-stopped
+    ports:
+      - ${DOCKER_WEB_PORT-7000}:80
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - database
+    environment:
+      MODULE_NAME: backend.main
+
+  database:
+    image: postgres:12-alpine
+    container_name: database
+    restart: unless-stopped
+    ports:
+      - ${DATABASE_PORT:-5432}:${DATABASE_PORT:-5432}
+    volumes:
+      - ../snotra-resources/database:/var/lib/postgresql/data
+      - ../snotra-resources/database_backup:/home/database_backup
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-snotra}
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}

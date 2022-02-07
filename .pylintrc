@@ -1,0 +1,9 @@
+[MASTER]
+init-hook="from pylint.config import find_pylintrc;
+import os, sys; sys.path.append(os.path.dirname(find_pylintrc()))"
+extension-pkg-whitelist = pydantic
+ignore=migrations,vendored
+
+[FORMAT]
+max-line-length = 88
+disable = C0330, C0326, C0111
