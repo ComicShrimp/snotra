@@ -1,0 +1,56 @@
+name: Snotra CI
+
+on:
+  push:
+    branches: ['**']
+
+jobs:
+  backend:
+    name: "Backend"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.10.2
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.2
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -Iv poetry==1.1.11
+          poetry config virtualenvs.create false
+          poetry config experimental.new-installer false
+          poetry install
+
+      - name: Mypy
+        run: |
+          set -e
+          set -x
+          mypy backend
+
+      - name: Flake8
+        run: |
+          set -e
+          set -x
+          flake8 backend
+
+      - name: Black
+        run: |
+          set -e
+          set -x
+          black backend --check
+
+      - name: Isort
+        run: |
+          set -e
+          set -x
+          isort backend --check-only
+          
+      - name: Vulture
+        run: |
+          set -e
+          set -x
+          vulture
