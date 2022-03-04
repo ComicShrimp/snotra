@@ -20,7 +20,19 @@ pylint = "^2.12.2"
 flake8 = "^4.0.1"
 mypy = "^0.931"
 sqlalchemy-stubs = "^0.4"
+vulture = "^2.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+exclude = ["migrations/"]
+
+[tool.vulture]
+exclude = ["migrations/"]
+make_whitelist = true
+min_confidence = 80
+paths = ["backend/"]
+sort_by_size = true
+ignore_names = ["cls"]
